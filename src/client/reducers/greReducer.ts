@@ -14,13 +14,16 @@ export const greReducer = (
   let nextState: IWordsState;
 
   switch (action.type) {
-    case greWordsActionEnum.GET_WORDS:
-      const w: IWord = { word: "a", definition: "f", partOfSpeech: "n" };
+    case greWordsActionEnum.GET_WORDS_SUCCESS:
       nextState = produce(state, (draft) => {
-        draft.words.push(w);
+        action.payload.forEach((x) => draft.words.push(x));
       });
 
       return nextState;
+
+    case greWordsActionEnum.GET_WORDS_FAILURE:
+      //create a state variable to hold success failure status.  WordFetchStatus
+      return state;
 
     case greWordsActionEnum.DELETE_WORDS:
       nextState = produce(state, (d) => {

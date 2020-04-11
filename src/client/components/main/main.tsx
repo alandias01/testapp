@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { getWords, deleteWords, IWord, IRootState } from './../../actions/greActions';
+import { getWords, deleteWords, IWord } from './../../actions/greActions';
 
 
 interface IMainProps {
     words: IWord[];
     getWords: () => void;
+    deleteWords: (words: IWord[]) => void;
 }
 
 class Mainc extends Component<IMainProps> {
@@ -16,20 +17,26 @@ class Mainc extends Component<IMainProps> {
     }
 
     test = () => {
-
+        this.props.getWords();
     }
 
     render() {
+
+        let data = <ul> {this.props.words.length > 0 && this.props.words.map(x => <li>{x.word}</li>)}</ul>;
+
         return (
             <div>
                 <button onClick={this.test} >Test</button>
-                Hello
+                {this.props.words.length > 0 && this.props.words[0].word}
+                {data}
+
+
             </div>
         )
     }
 }
 
-const mapStateToProps = (state: IRootState) => {
+const mapStateToProps = (state: any) => {
     return {
         words: state.gre.words
     }
