@@ -6,6 +6,7 @@ export enum greWordsActionEnum {
 }
 
 export interface IWord {
+  _id: string;
   word: string;
   definition: string;
   partOfSpeech: string;

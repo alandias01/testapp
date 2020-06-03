@@ -1,36 +1,56 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { MaterialLayout } from '../material/layout';
+import GreContainer from '../grewords/greContainer';
 
-import { getWords, deleteWords, IWord } from './../../actions/greActions';
-
-
-interface IMainProps {
-    words: IWord[];
-    getWords: () => void;
-    deleteWords: (words: IWord[]) => void;
+enum pages {
+    MAIN,
+    GRE,
+    MATERIALLAYOUT
 }
 
-class Mainc extends Component<IMainProps> {
+interface IMaincProps {
+
+}
+
+interface IMaincState {
+    currentPage: pages;
+}
+
+class Mainc extends Component<IMaincProps, IMaincState> {
     constructor(props: any) {
         super(props);
-        console.log("ctor ran");
+        this.state = { currentPage: pages.MAIN };
     }
 
-    test = () => {
-        this.props.getWords();
+    getpage = (en: any) => {
+        switch (en) {
+            case pages.GRE:
+                return <GreContainer />;
+            case pages.MATERIALLAYOUT:
+                return <MaterialLayout />;
+
+            default:
+                return <Mainc />;
+        }
     }
+
+    mainPage = () => {
+        return (
+            <div>
+                <button onClick={() => this.setState({ currentPage: pages.GRE })}> Gre</ button>
+                <button onClick={() => this.setState({ currentPage: pages.MATERIALLAYOUT })}> Layout</ button>
+            </div>
+        )
+    };
+
+    showpage = () => this.state.currentPage === pages.MAIN ? this.mainPage() : this.getpage(this.state.currentPage);
 
     render() {
 
-        let data = <ul> {this.props.words.length > 0 && this.props.words.map(x => <li>{x.word}</li>)}</ul>;
-
         return (
             <div>
-                <button onClick={this.test} >Test</button>
-                {this.props.words.length > 0 && this.props.words[0].word}
-                {data}
-
-
+                {this.showpage()}
             </div>
         )
     }
@@ -43,8 +63,6 @@ const mapStateToProps = (state: any) => {
 };
 
 const mapDispatchToProps = {
-    getWords,
-    deleteWords
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Mainc)

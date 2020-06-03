@@ -16,6 +16,7 @@ function* fetchUser(action: any) {
     //const user = yield call(Api.fetchUser, action.payload.userId);
     const words: IWord[] = [];
     words.push({
+      _id: "",
       word: "sagaword",
       definition: "sagadef",
       partOfSpeech: "sagapos",
